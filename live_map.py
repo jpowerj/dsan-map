@@ -7,9 +7,9 @@ import numpy as np
 from geopy.geocoders import Nominatim
 from country_list import countries_for_language
 from streamlit_gsheets import GSheetsConnection
-import pydeck as pdk
-import folium
-from streamlit_folium import st_folium
+# import pydeck as pdk
+# import folium
+# from streamlit_folium import st_folium
 
 # Geocoding
 geocoder = Nominatim(user_agent="dsan-live-map")
