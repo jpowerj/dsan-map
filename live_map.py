@@ -18,6 +18,8 @@ geocoder = Nominatim(user_agent="dsan-live-map")
 conn = st.connection("gsheets", type=GSheetsConnection)
 df = conn.read()
 
+#st.write(df)
+
 # # Print results
 # for row in df.itertuples():
 #     loc_str = f"{row.city}, {row.state}, {row.country}"
@@ -289,6 +291,7 @@ if loc_submit:
 
 # #map_style = None
 
+df = df.iloc[0:2]
 
 st.map(df, size=3000, use_container_width=True, zoom=7)
 
