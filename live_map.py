@@ -98,16 +98,16 @@ state_abbr_to_name = {
     "DC": "District of Columbia",
     # https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States#Inhabited_territories.
     "AS": "American Samoa",
-    "GU": "Guam GU",
+    "GU": "Guam",
     "MP": "Northern Mariana Islands",
-    "PR": "Puerto Rico PR",
+    "PR": "Puerto Rico",
     "VI": "U.S. Virgin Islands",
 }
 state_names = sorted(state_abbr_to_name.values())
 
-st.subheader('DSAN Admitted Students')
+st.subheader('Welcome to Data Science and Analytics at Georgetown!')
 
-st.sidebar.title("Welcome! Where are you from?")
+st.sidebar.title("Where do you call home?")
 with st.sidebar.form(key ='LocationForm'):
     country_placeholder = st.empty()
     state_placeholder = st.empty()
@@ -124,7 +124,23 @@ with state_placeholder:
         state = st.selectbox("State", state_names)
 
 if loc_submit:
-    st.subheader(f'Welcome to Georgetown, from {city}!')
+    if len(city) == 0:
+        st.sidebar.error("Please enter a city")
+    else:
+        #duckdb_query = "INSERT INTO people VALUES (1, 'Mark'), (2, 'Hannes')";
+        new_data = pd.DataFrame({
+            'city': [city],
+            'state': [state],
+            'country': [country],
+            'lat': [38.8950368],
+            'lon': [-77.0365427]
+        })
+        new_df = pd.concat([df, new_data])
+        conn.update(
+            worksheet='Locations',
+            data=new_df
+        )
+        st.markdown(f'Welcome to Georgetown, from {city}!')
 
 # df = pd.DataFrame(
 #     np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
@@ -274,7 +290,7 @@ if loc_submit:
 # #map_style = None
 
 
-st.map(df, size=2500, use_container_width=True, zoom=7)
+st.map(df, size=3000, use_container_width=True, zoom=7)
 
 # deck.setProps({
 #         viewState: {zoom}
